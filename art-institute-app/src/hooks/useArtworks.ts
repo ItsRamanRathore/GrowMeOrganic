@@ -10,17 +10,6 @@ export interface Artwork {
     date_end: number;
 }
 
-export interface ApiResponse {
-    pagination: {
-        total: number;
-        limit: number;
-        offset: number;
-        total_pages: number;
-        current_page: number;
-    };
-    data: Artwork[];
-}
-
 export const useArtworks = (page: number) => {
     const [data, setData] = useState<Artwork[]>([]);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -36,7 +25,8 @@ export const useArtworks = (page: number) => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch artworks data');
                 }
-                const result: ApiResponse = await response.json();
+                const result = await response.json();
+                console.log('artworks resp:', result)
                 setData(result.data);
                 setTotalRecords(result.pagination.total);
             } catch (err: any) {
